@@ -1,0 +1,7 @@
+build/
+build-win/
+*.o
+*.obj
+CMakeCache.txt
+CMakeFiles/
+config/usblock.conf

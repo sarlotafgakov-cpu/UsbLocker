@@ -1,7 +1,0 @@
-/home/dealer/UsbLocker/build/CMakeFiles/UsbLock.dir
-/home/dealer/UsbLocker/build/CMakeFiles/edit_cache.dir
-/home/dealer/UsbLocker/build/CMakeFiles/rebuild_cache.dir
-/home/dealer/UsbLocker/build/CMakeFiles/list_install_components.dir
-/home/dealer/UsbLocker/build/CMakeFiles/install.dir
-/home/dealer/UsbLocker/build/CMakeFiles/install/local.dir
-/home/dealer/UsbLocker/build/CMakeFiles/install/strip.dir

@@ -1,7 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/home/dealer/UsbLocker/build/cmake_install.cmake"
-	],
-	"Parallel" : false
-}
