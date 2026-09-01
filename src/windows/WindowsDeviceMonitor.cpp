@@ -87,8 +87,8 @@ LRESULT CALLBACK WindowsDeviceMonitor::WndProc(HWND hwnd, UINT msg, WPARAM wPara
         if (instance && (wParam == DBT_DEVICEARRIVAL || wParam == DBT_DEVICEREMOVECOMPLETE)) {
             PDEV_BROADCAST_HDR pHdr = (PDEV_BROADCAST_HDR)lParam;
             if (pHdr && pHdr->dbch_devicetype == DBT_DEVTYP_DEVICEINTERFACE) {
-                auto* pDevInterface = (PDEV_BROADCAST_DEVICEINTERFACE)pHdr;
-                std::string path = wideToNarrow(pDevInterface->dbcc_name);
+                auto* pDevInterface = (PDEV_BROADCAST_DEVICEINTERFACE_A)pHdr;
+                std::string path(pDevInterface->dbcc_name);
 
                 UsbDeviceInfo info;
                 bool parsed = parseUsbIdString(path, info);
@@ -115,21 +115,21 @@ LRESULT CALLBACK WindowsDeviceMonitor::WndProc(HWND hwnd, UINT msg, WPARAM wPara
 
 void WindowsDeviceMonitor::run() {
     // Регистрируем класс окна
-    WNDCLASS wc = {};
+    WNDCLASSA wc = {};
     wc.lpfnWndProc = WndProc;
     wc.hInstance = GetModuleHandle(nullptr);
-    wc.lpszClassName = L"USBMonitorClass";
-    RegisterClass(&wc);
+    wc.lpszClassName = "USBMonitorClass";
+    RegisterClassA(&wc); 
 
-    hwnd = CreateWindowEx(0, L"USBMonitorClass", L"", 0, 0, 0, 0, 0, HWND_MESSAGE, nullptr, wc.hInstance, nullptr);
+    hwnd = CreateWindowExA(0, "USBMonitorClass", "", 0, 0, 0, 0, 0, HWND_MESSAGE, nullptr, wc.hInstance, nullptr);
     if (!hwnd) {
         std::cerr << "Failed to create window" << std::endl;
         return;
     }
 
     // Подписываемся на уведомления об устройствах
-    DEV_BROADCAST_DEVICEINTERFACE notificationFilter = {};
-    notificationFilter.dbcc_size = sizeof(DEV_BROADCAST_DEVICEINTERFACE);
+    DEV_BROADCAST_DEVICEINTERFACE_A notificationFilter = {};
+    notificationFilter.dbcc_size = sizeof(DEV_BROADCAST_DEVICEINTERFACE_A);
     notificationFilter.dbcc_devicetype = DBT_DEVTYP_DEVICEINTERFACE;
     notificationFilter.dbcc_classguid = GUID_DEVINTERFACE_USB_DEVICE;
 
