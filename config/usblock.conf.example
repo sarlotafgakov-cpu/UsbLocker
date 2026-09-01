@@ -1,0 +1,33 @@
+# Конфигурация USB Lock Controller
+# Скопируйте этот файл в config/usblock.conf (или /etc/usblock/usblock.conf
+# для системной установки) и подставьте данные СВОЕЙ флешки.
+#
+# Linux — узнать vendor/product можно командой `lsusb`, например:
+#   Bus 001 Device 004: ID 1234:5678 Kingston DataTraveler
+#                          ^^^^ ^^^^
+#                          vendor product
+# Serial:
+#   udevadm info --query=property --name=/dev/sdX | grep ID_SERIAL_SHORT
+#
+# Windows — все три значения видны в одной строке в Диспетчере устройств:
+#   Диспетчер устройств → выбрать флешку → Свойства → вкладка "Сведения" →
+#   свойство "ИД оборудования" (Hardware Ids) или "ИД экземпляра устройства"
+#   (Device instance path). Строка выглядит так:
+#     USB\VID_1234&PID_5678\ABCDEF
+#           ^^^^      ^^^^   ^^^^^^
+#           vendor    product serial
+#   То же самое можно получить командой PowerShell:
+#     Get-PnpDevice -Class USB | Select-Object InstanceId
+
+vendor=1234
+product=5678
+serial=ABCDEF
+
+# debug=true  — фоновый сторож (UsbPresenceWatchdog) при отсутствии флешки
+#               только выводит сообщение в консоль, систему не блокирует.
+# debug=false — сторож реально блокирует систему (значение по умолчанию).
+debug=false
+
+# Как часто фоновый сторож опрашивает наличие флешки, в миллисекундах.
+# Необязательный параметр, по умолчанию 2000.
+watchdog_interval_ms=2000
